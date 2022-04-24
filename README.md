@@ -40,3 +40,19 @@ Ensure each of the requirements are met and and that each is covered by tests.
 
 **Bonus points** for code re-usability and/or using Storybook.
 
+## Execute the solution
+
+### Install dependencies
+
+**Using node 16.x** versions
+
+```bash
+npm i
+```
+
+### Run the solution
+
+
+```bash
+npm start
+```
