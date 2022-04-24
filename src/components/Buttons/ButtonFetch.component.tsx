@@ -8,13 +8,23 @@ import Label from "../Labels/Label.component";
 import Tooltip from "../Tooltips/Tooltip.component";
 import { Placement } from "../Tooltips/Tooltip.Content.component";
 
+type Labels = {
+  default: {
+    button: string;
+    tooltip: string;
+  },
+  inProgress: {
+    button: string;
+    tooltip: string;
+  },
+  error: {
+    button: string;
+    tooltip: string;
+  }
+};
+
 export interface Props {
-  label: string;
-  labelInfo: string;
-  labelInProgress: string;
-  labelInfoInProgress: string;
-  labelError: string;
-  labelInfoError: string;
+  labels: Labels;
   url?: string;
   onClick?: () => void;
   className?: string;
@@ -31,12 +41,7 @@ const ButtonFetchLoading = styled(Loading)`
 `;
 
 function UnStyledButtonFetch({
-  label,
-  labelInfo,
-  labelInProgress,
-  labelInfoInProgress,
-  labelError,
-  labelInfoError,
+  labels,
   url,
   maxDuration,
   onClick,
@@ -63,14 +68,14 @@ function UnStyledButtonFetch({
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
              <Button variant={Variant.error} onClick={handleClick}>
-              <Label variant={Variant.error} text={labelError} />
+              <Label variant={Variant.error} text={labels.error.button} />
             </Button>
           </Tooltip.Trigger>
           <Tooltip.Content
             variant={Variant.error}
             placement={Placement.bottom}
           >
-            <p>{labelInfoError}</p>
+            <p>{labels.error.tooltip}</p>
           </Tooltip.Content>
         </Tooltip>
       )}
@@ -79,7 +84,7 @@ function UnStyledButtonFetch({
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
             <ButtonFetchWaiting variant={Variant.secondary} onClick={handleClick}>
-              <Label variant={Variant.secondary} text={labelInProgress} />
+              <Label variant={Variant.secondary} text={labels.inProgress.button} />
               <ButtonFetchLoading variant={Variant.secondary} size="20px" inline />
             </ButtonFetchWaiting>
           </Tooltip.Trigger>
@@ -87,7 +92,7 @@ function UnStyledButtonFetch({
             variant={Variant.secondary}
             placement={Placement.bottom}
           >
-            <p>{labelInfoInProgress}</p>
+            <p>{labels.inProgress.tooltip}</p>
           </Tooltip.Content>
         </Tooltip>
       )}
@@ -96,11 +101,11 @@ function UnStyledButtonFetch({
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
             <Button onClick={handleClick}>
-              <Label text={label} />
+              <Label text={labels.default.button} />
             </Button>
           </Tooltip.Trigger>
           <Tooltip.Content placement={Placement.bottom}>
-            <p>{labelInfo}</p>
+            <p>{labels.default.tooltip}</p>
           </Tooltip.Content>
         </Tooltip>
       )}

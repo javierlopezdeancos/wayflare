@@ -2,6 +2,21 @@ import ButtonFetch from "./components/Buttons/ButtonFetch.component";
 
 import "./styles.css";
 
+const buttonFetchLabels = {
+  default: {
+    button: "Launch Rocket",
+    tooltip: "Ignites the fuel",
+  },
+  inProgress: {
+    button: "Launching",
+    tooltip: "Cancel launch",
+  },
+  error: {
+    button: "Launch Rocket",
+    tooltip: "Ignition error",
+  }
+};
+
 export default function App() {
   return (
     <div className="App">
@@ -15,12 +30,7 @@ export default function App() {
       </header>
       <main>
         <ButtonFetch
-          label="Launch Rocket"
-          labelInfo="Ignites the fuel"
-          labelInProgress="Launching"
-          labelInfoInProgress="Cancel launch"
-          labelError="Launch Rocket"
-          labelInfoError="Ignition error"
+          labels={buttonFetchLabels}
           url="https://httpbin.org/delay/6"
           maxDuration={5}
         />
