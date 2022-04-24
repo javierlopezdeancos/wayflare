@@ -1,24 +1,32 @@
-export enum variant {
+export enum Variant {
   primary = "primary",
   secondary = "secondary",
+  tertiary = "tertiary",
   error = "error"
 }
 
-export enum size {
-  medium = "medium"
+export enum Size {
+  medium = "medium",
+  large = "large"
 }
 
-export const color = {
-  [variant.primary]: "black",
-  [variant.secondary]: "#FF7900",
-  [variant.error]: "#FF0000"
+export const Color = {
+  [Variant.primary]: "black",
+  [Variant.secondary]: "#FF7900",
+  [Variant.tertiary]: "white",
+  [Variant.error]: "#FF0000",
 };
 
-export const font = {
+export const Font = {
   family: {
-    [variant.primary]: "'Roboto', sans-serif"
+    [Variant.primary]: "'Roboto', sans-serif"
   },
   weight: {
-    [size.medium]: "400"
+    [Size.medium]: "400",
+    [Size.large]: "700"
+  },
+  size: {
+    [Size.medium]: "12px",
+    [Size.large]: "16px"
   }
 };
