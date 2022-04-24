@@ -7,7 +7,7 @@ export default function App() {
     <div className="App">
       <header>
         <h1>
-          Go Go Go
+          Flying to the moon...
           <span role="img" aria-label="rocket emoji">
             🚀
           </span>
@@ -16,9 +16,13 @@ export default function App() {
       <main>
         <ButtonFetch
           label="Launch Rocket"
+          labelInfo="Ignites the fuel"
           labelInProgress="Launching"
-          url="https://httpbin.org/delay/6"
-          timeout={5}
+          labelInfoInProgress="Cancel launch"
+          labelError="Launch Rocket"
+          labelInfoError="Ignition error"
+          url="https://httpbin.org/delay/4"
+          maxDuration={3}
         />
       </main>
     </div>
