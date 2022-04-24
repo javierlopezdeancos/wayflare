@@ -12,8 +12,8 @@ export type UseNetworkStateReturn = {
     startRequest: () => void;
     endRequest: () => void;
     abortRequest: () => void;
-    resetErrorState: () => void;
-    setErrorState: (message: string) => void;
+    resetError: () => void;
+    setError: (message: string) => void;
     setRequestData: (data: unknown) => void;
   };
 };
@@ -41,11 +41,11 @@ export default function useNetworkState(): UseNetworkStateReturn {
         controller.abort();
         setIsLoading(false);
       },
-      resetErrorState: () => {
+      resetError: () => {
         setIsError(false);
         setErrorMessage("");
       },
-      setErrorState: (message = "") => {
+      setError: (message = "") => {
         setIsError(true);
         setErrorMessage(message);
       },
