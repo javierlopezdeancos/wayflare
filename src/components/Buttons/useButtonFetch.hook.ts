@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useNetworkState from "../../hooks/useNetworkState.hook";
+import useDebounce from "../../hooks/useDebounce.hook";
 
 type UseButtonFetchReturn = {
   meta: {
     isLoading: boolean;
     isError: boolean;
   };
-  buttonFetch: (url: string, timeout?: number) => Promise<void>;
+  buttonFetch: Function;
 };
 
 export default function useButtonFetch(): UseButtonFetchReturn {
-  const [fetchTimeout, setFetchTimeout] = useState();
+  const [fetchTimeout, setFetchTimeout] = useState<any>();
   const { data, meta, actions, signal } = useNetworkState();
-
-  useEffect(() => {
-    if (fetchTimeout && !meta.isLoading) {
-      clearTimeout(fetchTimeout);
-    }
-  }, [meta.isLoading]);
 
   const buttonFetch = async (url: string, timeout?: number): Promise<void> => {
     if (meta.isError) {
@@ -28,6 +23,7 @@ export default function useButtonFetch(): UseButtonFetchReturn {
     if (meta.isLoading) {
       if (fetchTimeout) {
         clearTimeout(fetchTimeout);
+        setFetchTimeout(undefined);
       }
 
       actions.abortRequest();
@@ -56,5 +52,7 @@ export default function useButtonFetch(): UseButtonFetchReturn {
     }
   };
 
-  return { meta, buttonFetch };
+  const debounceButtonFetch = useDebounce(buttonFetch, 400);
+
+  return { meta,  buttonFetch: debounceButtonFetch };
 }

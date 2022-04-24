@@ -21,8 +21,8 @@ export default function App() {
           labelInfoInProgress="Cancel launch"
           labelError="Launch Rocket"
           labelInfoError="Ignition error"
-          url="https://httpbin.org/delay/4"
-          maxDuration={3}
+          url="https://httpbin.org/delay/6"
+          maxDuration={5}
         />
       </main>
     </div>
