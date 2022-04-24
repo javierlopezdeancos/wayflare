@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { ReactElement } from "react";
-import { color, variant, size, font } from "../../theme";
+import { Color, Variant, Size, Font } from "../../theme";
 
 export interface Props {
   className?: string;
   children?: ReactElement;
   text: string;
-  variant?: variant;
+  variant?: Variant;
 }
 
-function UnstyledLabel({
+function UnStyledLabel({
   variant,
   text,
   className,
@@ -23,19 +23,19 @@ function UnstyledLabel({
   );
 }
 
-const Label = styled(UnstyledLabel)`
+const Label = styled(UnStyledLabel)`
   color: ${(props) => {
-    if (props.variant === variant.secondary) {
-      return color.secondary;
-    } else if (props.variant === variant.error) {
-      return color.error;
+    if (props.variant === Variant.secondary) {
+      return Color.secondary;
+    } else if (props.variant === Variant.error) {
+      return Color.error;
     } else {
-      return color.primary;
+      return Color.primary;
     }
   }};
-  font-size: ${"12px"};
-  font-family: ${font.family[variant.primary]};
-  font-weight: ${font.weight[size.medium]};
+  font-size: ${Font.size[Size.medium]};
+  font-family: ${Font.family[Variant.primary]};
+  font-weight: ${Font.weight[Size.medium]};
 `;
 
 export default Label;

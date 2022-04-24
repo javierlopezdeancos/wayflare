@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { color, variant } from "../../theme";
+import { Color, Variant } from "../../theme";
 
 export interface Props {
   onClick: () => void;
   className?: string;
   children?: any;
-  variant?: variant;
+  variant?: Variant;
 }
 
-function UnstyledButton({
+function UnStyledButton({
   variant,
   onClick,
   className,
@@ -21,28 +21,28 @@ function UnstyledButton({
   );
 }
 
-const Button = styled(UnstyledButton)`
+const Button = styled(UnStyledButton)`
   display: ${"flex"};
   justify-content: ${"center"};
   align-items: ${"center"};
   color: ${(props: Props) => {
-    if (props.variant === variant.secondary) {
-      return color.secondary;
-    } else if (props.variant === variant.error) {
-      return color.error;
+    if (props.variant === Variant.secondary) {
+      return Color.secondary;
+    } else if (props.variant === Variant.error) {
+      return Color.error;
     } else {
-      return color.primary;
+      return Color.primary;
     }
   }};
   font-size: ${"12px"};
   background: ${"white"};
   border: ${(props:Props) => {
-    if (props.variant === variant.secondary) {
-      return `2px solid ${color.secondary}`;
-    } else if (props.variant === variant.error) {
-      return `2px solid ${color.error}`;
+    if (props.variant === Variant.secondary) {
+      return `2px solid ${Color.secondary}`;
+    } else if (props.variant === Variant.error) {
+      return `2px solid ${Color.error}`;
     } else {
-      return `2px solid ${color.primary}`;
+      return `2px solid ${Color.primary}`;
     }
   }};
   padding: ${"15px 30px"};

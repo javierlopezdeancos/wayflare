@@ -1,16 +1,16 @@
 import { ReactElement } from "react";
-import { color, variant } from "../../theme";
+import { Color, Variant } from "../../theme";
 import styled from "styled-components";
 
 export interface Props {
   size?: string;
-  variant?: variant;
+  variant?: Variant;
   inline?: boolean;
   className?: string;
   children?: ReactElement;
 }
 
-function UnstyledLoading({
+function UnStyledLoading({
   size,
   inline,
   className,
@@ -44,11 +44,11 @@ function UnstyledLoading({
   );
 }
 
-const Loading = styled(UnstyledLoading)`
+const Loading = styled(UnStyledLoading)`
   width: ${(props) => (props.size ? props.size : "20px")};
   display: ${(props) => (props.inline ? "inline-block" : "block")};
   fill: ${(props) =>
-    props.variant === variant.secondary ? color.secondary : color.primary};
+    props.variant === Variant.secondary ? Color.secondary : Color.primary};
 `;
 
 export default Loading;
