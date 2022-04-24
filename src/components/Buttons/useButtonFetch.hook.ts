@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useNetworkState from "../../hooks/useNetworkState.hook";
-
-const FETCH_ERROR_MESSAGE = "Ignition error";
 
 type UseButtonFetchReturn = {
   meta: {
@@ -12,42 +10,47 @@ type UseButtonFetchReturn = {
 };
 
 export default function useButtonFetch(): UseButtonFetchReturn {
-  const [fetchTimeout, setFetchTimeout] = useState<NodeJS.Timeout>();
+  const [fetchTimeout, setFetchTimeout] = useState();
   const { data, meta, actions, signal } = useNetworkState();
 
   useEffect(() => {
     if (fetchTimeout && !meta.isLoading) {
       clearTimeout(fetchTimeout);
     }
-  }, [fetchTimeout, meta.isLoading]);
+  }, [meta.isLoading]);
 
   const buttonFetch = async (url: string, timeout?: number): Promise<void> => {
-    if (meta.isError && !meta.isLoading) {
-      actions.resetErrorState();
+    if (meta.isError) {
+      actions.resetError();
       return;
     }
 
-    if (meta.isLoading && fetchTimeout) {
+    if (meta.isLoading) {
+      if (fetchTimeout) {
+        clearTimeout(fetchTimeout);
+      }
+
       actions.abortRequest();
+
       return;
     }
 
     actions.startRequest();
 
+    if (timeout) {
+      const t = setTimeout(() => {
+        actions.abortRequest();
+        actions.setError('');
+      }, timeout * 1000);
+
+      setFetchTimeout(t as any);
+    }
+
     try {
       const response = await fetch(url, { signal });
       actions.setRequestData(response);
-
-      if (timeout) {
-        const t = setTimeout(() => {
-          actions.abortRequest();
-          actions.setErrorState(FETCH_ERROR_MESSAGE);
-        }, timeout * 1000);
-
-        setFetchTimeout(t);
-      }
     } catch (error) {
-      actions.setErrorState(FETCH_ERROR_MESSAGE);
+      actions.setError('');
     } finally {
       actions.endRequest();
     }
