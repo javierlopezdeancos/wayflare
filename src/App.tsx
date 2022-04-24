@@ -1,19 +1,25 @@
-import Button from "./components/Button";
+import ButtonFetch from "./components/Buttons/ButtonFetch.component";
 
 import "./styles.css";
 
 export default function App() {
-  const launch = () => {
-    console.log("launch");
-  };
-
   return (
     <div className="App">
       <header>
-        <h1>Wayflyer FE Engineer Take Home Test</h1>
+        <h1>
+          Go Go Go
+          <span role="img" aria-label="rocket emoji">
+            🚀
+          </span>
+        </h1>
       </header>
       <main>
-        <Button label="Launch Rocket" onClick={launch} />
+        <ButtonFetch
+          label="Launch Rocket"
+          labelInProgress="Launching"
+          url="https://httpbin.org/delay/6"
+          timeout={5}
+        />
       </main>
     </div>
   );
