@@ -44,7 +44,7 @@ function UnStyledContent ({ className, placement, onDisplay, onDismiss, dataTest
 
 const Content = styled(UnStyledContent)`
   position: absolute;
-  padding: 5px 5px;
+  padding: 0 5px;
   cursor: default;
   min-width: 135px;
   background-color: ${(props: Props) => {
@@ -66,6 +66,10 @@ const Content = styled(UnStyledContent)`
     position: absolute;
     width: 0;
     height: 0;
+  }
+
+  & > p {
+    margin: 10px 0;
   }
 
   &.top {
@@ -137,7 +141,7 @@ const Content = styled(UnStyledContent)`
   }
 
   &.bottom {
-    top: calc(100% + 5px);
+    top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
 
