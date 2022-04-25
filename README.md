@@ -56,3 +56,7 @@ npm i
 ```bash
 npm start
 ```
+
+### Final behaviour
+
+![button behavior](./readme/gif/rocket.gif)
