@@ -57,6 +57,49 @@ npm i
 npm start
 ```
 
-### Final behaviour
+### Behaviour
 
 ![button behavior](./readme/gif/rocket.gif)
+
+
+### System Design
+
+
+```mermaid
+classDiagram
+  App <|-- ButtonFetchComponent
+  ButtonFetchComponent <|-- ButtonComponent
+  ButtonComponent <|-- LabelComponent
+  ButtonFetchComponent <|-- TooltipComponent
+  TooltipComponent <|-- TooltipContentComponent
+  TooltipComponent <|-- TooltipTriggerComponent
+  ButtonFetchComponent <|-- useButtonFetchHook
+  useButtonFetchHook <|-- useNetworkStateHook
+  useButtonFetchHook <|-- useDebounceHook
+  class ButtonFetchComponent{
+  }
+  class ButtonComponent{
+  }
+  class LabelComponent{
+  }
+  class TooltipComponent{
+  }
+  class TooltipContentComponent{
+  }
+  class TooltipTriggerComponent{
+  }
+  class useButtonFetchHook{
+    +Any data
+    +Any meta
+    +buttonFetch(url: string, timeout?: number);
+  }
+  class useDebounceHook{
+    +debounce(func: Function, ms: number);
+  }
+  class useNetworkStateHook{
+    +Any data,
+    +Object meta
+    +AbortController.signal  signal
+    +Object actions
+  }
+```
