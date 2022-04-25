@@ -3,53 +3,61 @@ import { useState } from "react";
 export type UseNetworkStateReturn = {
   data: unknown;
   meta: {
-    isLoading: boolean;
-    isError: boolean;
+    loading: boolean;
+    error: boolean;
     errorMessage: string;
   };
   signal: AbortSignal;
   actions: {
-    startRequest: () => void;
-    endRequest: () => void;
-    abortRequest: () => void;
+    start: () => void;
+    end: () => void;
+    abort: () => void;
     resetError: () => void;
     setError: (message: string) => void;
-    setRequestData: (data: unknown) => void;
+    setData: (data: unknown) => void;
+    setLoading: (laoding: boolean) => void;
+    resetSignal: () => void;
   };
 };
 
 export default function useNetworkState(): UseNetworkStateReturn {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [data, setData] = useState<unknown>({});
+  const [controller, setController] = useState<AbortController>(new AbortController());
 
-  const controller = new AbortController();
+  const resetSignal = () => {
+    setController(new AbortController());
+  };
 
   return {
     data,
     meta: {
-      isLoading,
-      isError,
+      loading,
+      error,
       errorMessage
     },
     signal: controller.signal,
     actions: {
-      startRequest: () => setIsLoading(true),
-      endRequest: () => setIsLoading(false),
-      abortRequest: () => {
+      start: () => setLoading(true),
+      end: () => setLoading(false),
+      abort: () => {
         controller.abort();
-        setIsLoading(false);
+        setLoading(false);
       },
       resetError: () => {
-        setIsError(false);
+        setError(false);
         setErrorMessage("");
       },
       setError: (message = "") => {
-        setIsError(true);
+        setLoading(false);
+        setError(true);
         setErrorMessage(message);
       },
-      setRequestData: (data: unknown) => setData(data)
+      setLoading: (loading: boolean) => setLoading(loading),
+      setData: (data: unknown) => setData(data),
+      resetSignal: () => resetSignal()
     }
   };
 }

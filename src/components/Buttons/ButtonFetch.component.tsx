@@ -64,7 +64,7 @@ function UnStyledButtonFetch({
 
   return (
     <div className={className}>
-      {meta.isError && (
+      {meta.error && (
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
              <Button variant={Variant.error} onClick={handleClick}>
@@ -80,7 +80,7 @@ function UnStyledButtonFetch({
         </Tooltip>
       )}
 
-      {meta.isLoading && (
+      {meta.loading && (
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
             <ButtonFetchWaiting variant={Variant.secondary} onClick={handleClick}>
@@ -97,7 +97,7 @@ function UnStyledButtonFetch({
         </Tooltip>
       )}
 
-      {!meta.isError && !meta.isLoading && (
+      {!meta.error && !meta.loading && (
         <Tooltip id="button-fetch-tooltip">
           <Tooltip.Trigger>
             <Button onClick={handleClick}>
