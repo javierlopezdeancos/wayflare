@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Variant, Font, Size, Color } from "../../theme";
+import { Variant } from "../../theme";
 import styled from "styled-components";
 import Content from "./Tooltip.Content.component";
 import Trigger from "./Tooltip.Trigger.component";
@@ -27,11 +27,7 @@ function UnStyledTooltip({ id, dataTestId, className, children }: Props): JSX.El
 
     if (child.type.displayName === 'Trigger') {
       trigger = React.cloneElement(
-        child,
-        {
-          'aria-describedby': id,
-          'data-testid': 'tooltip-button',
-        }
+        child, { 'aria-describedby': id }
       );
     }
 
@@ -44,7 +40,7 @@ function UnStyledTooltip({ id, dataTestId, className, children }: Props): JSX.El
 
   return (
     <div className={className}
-      data-testid={dataTestId || "tooltip"}
+      data-testid={dataTestId}
       ref={nodeRef as React.RefObject<HTMLDivElement>}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

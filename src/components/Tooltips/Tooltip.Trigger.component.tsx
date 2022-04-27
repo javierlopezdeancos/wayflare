@@ -4,7 +4,7 @@ export interface Props {
   children: any;
 }
 
-const Trigger = ({ children, ...otherProps }: Props) => {
+const Trigger = ({ children,...otherProps }: Props) => {
   return (
     cloneElement(children, {...otherProps})
   );

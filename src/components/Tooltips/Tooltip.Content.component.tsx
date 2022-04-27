@@ -32,7 +32,7 @@ function UnStyledContent ({ className, placement, onDisplay, onDismiss, dataTest
   return (
     <div
       role="tooltip"
-      data-testid={dataTestId || "tooltip-content"}
+      data-testid={dataTestId}
       {...otherProps}
       className={`${placement} ${className}`}
     >

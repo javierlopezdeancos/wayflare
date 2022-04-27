@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export type UseNetworkStateReturn = {
-  data: unknown;
+export type UseNetworkStateReturn<D> = {
+  data: D | undefined;
   meta: {
     loading: boolean;
     error: boolean;
@@ -14,17 +14,18 @@ export type UseNetworkStateReturn = {
     abort: () => void;
     resetError: () => void;
     setError: (message: string) => void;
-    setData: (data: unknown) => void;
+    setData: (data: D) => void;
     setLoading: (laoding: boolean) => void;
     resetSignal: () => void;
+    setController: (controller: AbortController) => void;
   };
 };
 
-export default function useNetworkState(): UseNetworkStateReturn {
+export default function useNetworkState<D = unknown>(): UseNetworkStateReturn<D>{
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [data, setData] = useState<unknown>({});
+  const [data, setData] = useState<D>();
   const [controller, setController] = useState<AbortController>(new AbortController());
 
   const resetSignal = () => {
@@ -56,8 +57,9 @@ export default function useNetworkState(): UseNetworkStateReturn {
         setErrorMessage(message);
       },
       setLoading: (loading: boolean) => setLoading(loading),
-      setData: (data: unknown) => setData(data),
-      resetSignal: () => resetSignal()
+      setData: (data: D) => setData(data),
+      resetSignal: () => resetSignal(),
+      setController: (controller: AbortController) => setController(controller)
     }
   };
 }

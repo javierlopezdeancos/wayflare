@@ -2,20 +2,22 @@ import styled from "styled-components";
 import { Color, Variant } from "../../theme";
 
 export interface Props {
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   children?: any;
   variant?: Variant;
+  dataTestId?: string;
 }
 
 function UnStyledButton({
   variant,
   onClick,
   className,
-  children
+  children,
+  dataTestId
 }: Props): JSX.Element {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={() => { if (onClick) onClick() }} data-testid={dataTestId}>
       {children}
     </button>
   );
