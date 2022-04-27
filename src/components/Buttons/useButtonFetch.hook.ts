@@ -2,18 +2,20 @@ import { useState } from "react";
 import useNetworkState from "../../hooks/useNetworkState.hook";
 import useDebounce from "../../hooks/useDebounce.hook";
 
-type UseButtonFetchReturn = {
-  data: unknown;
+type ButtonFetch = (url: string, timeout?: number) => Promise<void>;
+
+type UseButtonFetchReturn<D> = {
+  data: D | undefined;
   meta: {
     loading: boolean;
     error: boolean;
   };
-  buttonFetch: Function;
+  buttonFetch: ButtonFetch;
 };
 
-export default function useButtonFetch(): UseButtonFetchReturn {
+export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
   const [fetchTimeout, setFetchTimeout] = useState<any>();
-  const { data, meta, actions, signal } = useNetworkState();
+  const { data, meta, actions, signal } = useNetworkState<D>();
 
   const buttonFetch = async (url: string, timeout?: number): Promise<void> => {
     const isTryingToFetchForFirstTime = !meta.loading && !meta.error;
@@ -33,7 +35,7 @@ export default function useButtonFetch(): UseButtonFetchReturn {
       }
 
       try {
-        const response = await fetch(url, { signal });
+        const response = await fetch(url, { signal }) as any;
         actions.setData(response);
       } catch (error: any) {
 
