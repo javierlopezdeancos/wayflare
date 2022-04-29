@@ -4,7 +4,7 @@ import useDebounce from "../../hooks/useDebounce.hook";
 
 type ButtonFetch = (url: string, timeout?: number) => Promise<void>;
 
-type UseButtonFetchReturn<D> = {
+export type UseButtonFetchReturn<D> = {
   data: D | undefined;
   meta: {
     loading: boolean;
@@ -36,7 +36,7 @@ export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
 
       try {
         const response = await fetch(url, { signal }) as any;
-        actions.setData(response);
+        actions.setData(response.json());
       } catch (error: any) {
 
         if (error as DOMException) {

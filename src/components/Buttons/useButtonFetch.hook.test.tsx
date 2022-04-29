@@ -1,70 +1,64 @@
 import { screen, fireEvent, render } from '@testing-library/react';
 import useButtonFetch from './useButtonFetch.hook';
 import '@testing-library/jest-dom';
+import fetchMock from 'fetch-mock';
 
-const BUTTON_FETCH_TEST_ID = 'button-fetch-test';
 const URL_TO_FETCH = '';
-const DATA_TEST_ID = 'data-test';
-const ERROR_TEST_ID = 'loading-test';
-const LOADING_TEST_ID = 'error-test';
 const DATA_MOCK = 'data-mock';
-const ERROR_MOCK = 'error-mock';
-const LOADING_MOCK = 'loading-mock';
-
-let fetchReference: any;
+const ERROR_LABEL = 'error-label';
+const LOADING_LABEL= 'loading-label';
+const LOADING_TEST_ID = 'loading-test-id';
+const DATA_TEST_ID = 'data-test-id';
+const BUTTON_FETCH_DATA_TEST_ID = 'button-fetch-test-id';
 
 interface Props {
-  url: string;
-  ms: number,
+  timeout?: number
+};
+
+function UseFetchButtonTestComponent({ timeout }: Props) {
+  const { data, meta, buttonFetch } = useButtonFetch<string>();
+
+  const handleClick = async () => {
+    await buttonFetch(URL_TO_FETCH, timeout);
+  };
+
+  if (meta.loading) {
+    return <span data-testid={LOADING_TEST_ID}>{LOADING_LABEL}</span>;
+  }
+
+  if (meta.error) {
+    return <span>{ERROR_LABEL}</span>;
+  }
+
+  if (data) {
+    return <span data-testid={DATA_TEST_ID}>{data}</span>;
+  }
+
+  return <button onClick={handleClick} data-testid={BUTTON_FETCH_DATA_TEST_ID}>fetch data</button>;
 }
 
-function UseFetchExampleMock({ url, ms }: Props) {
-  const { data, meta, buttonFetch } = useButtonFetch();
+const nativeFetch = global.fetch
 
-  return (
-    <>
-      {meta?.loading && <span data-testid={LOADING_TEST_ID}>{LOADING_MOCK}</span>}
-      {meta?.error && <span data-testid={ERROR_TEST_ID}>{ERROR_MOCK}</span>}
-      {(data) && <span data-testid={DATA_TEST_ID}>{DATA_MOCK}</span>}
-      <button
-        onClick={async () => await buttonFetch('', ms)}
-        data-testid={BUTTON_FETCH_TEST_ID}
-      >
-        fecth
-      </button>
-    </>
-  )
-}
-
-const FETCH_TIME_MOCK = 200;
 
 beforeAll(() => {
-  fetchReference = window.fetch;
-  window.fetch = jest.fn(async () => {
-    setTimeout(() => {
-      Promise.resolve(new Response(DATA_MOCK));
-     }, FETCH_TIME_MOCK);
-  }) as any;
+  fetchMock.mock(URL_TO_FETCH, Response(DATA_MOCK));
 });
 
 
-test('should fetch if timeout takes more than fetch', () => {
-  render(<UseFetchExampleMock url={URL_TO_FETCH} ms={300} />);
+test(`should fetch if timeout 300ms takes more than fetch 0ms`, async () => {
+  // await fetch('https://httpbin.org/delay/6');
 
-  const fetchButtonNode = screen.getByTestId(BUTTON_FETCH_TEST_ID);
-  fireEvent.click(fetchButtonNode);
+  render(<UseFetchButtonTestComponent timeout={300} />);
 
-  setTimeout(() => {
-    const dataNode = screen.getByTestId(DATA_TEST_ID);
+  const fetchDataButtonNode = screen.getByTestId(BUTTON_FETCH_DATA_TEST_ID);
+  fireEvent.click(fetchDataButtonNode);
 
-    expect(window.fetch).toHaveBeenCalledTimes(1);
-    expect(window.fetch).toHaveBeenCalledWith(URL_TO_FETCH, {
-      method: 'GET',
-    });
-    expect(dataNode).toHaveTextContent('lol');
-  }, FETCH_TIME_MOCK);
+  const dataNode = screen.getByTestId(DATA_TEST_ID);
+
+  expect(dataNode).toBeInTheDocument();
+  expect(dataNode).toHaveTextContent(DATA_MOCK);
 });
 
 afterAll(() => {
-  window.fetch = fetchReference;
+  global.fetch = nativeFetch
 });

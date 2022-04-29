@@ -50,7 +50,7 @@ function UnStyledButtonFetch({
 }: Props): JSX.Element {
   const { meta, buttonFetch } = useButtonFetch();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (onClick) {
       onClick();
     }
@@ -59,7 +59,7 @@ function UnStyledButtonFetch({
       return;
     }
 
-    buttonFetch(url, maxDuration);
+    await buttonFetch(url, maxDuration);
   };
 
   return (
