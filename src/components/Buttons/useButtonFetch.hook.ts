@@ -36,7 +36,9 @@ export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
 
       try {
         const response = await fetch(url, { signal }) as any;
-        actions.setData(response.json());
+        const d = await response.json();
+
+        actions.setData(d);
       } catch (error: any) {
 
         if (error as DOMException) {
@@ -71,5 +73,5 @@ export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
 
   const debounceButtonFetch = useDebounce(buttonFetch, 400);
 
-  return { data, meta,  buttonFetch: debounceButtonFetch };
+  return { data, meta, buttonFetch: debounceButtonFetch };
 }
