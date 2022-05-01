@@ -103,3 +103,7 @@ classDiagram
     +Object actions
   }
 ```
+
+### Next steps
+
+- [ ] Mock useNetworkState hook convert useButtonFetch hook into a real unitary test.
