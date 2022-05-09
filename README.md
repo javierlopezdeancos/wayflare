@@ -1,5 +1,7 @@
 # Wayflyer FE Engineer Take Home Test
 
+![Coverage](shields/coverage.svg)
+
 You have been tasked with building a re-usable button for the Wayflyer mission control dashboard.
 
 The button needs to make a GET request to a mission control server to ignite the rocket fuel and launch the Wayflyer rocket ship.
@@ -103,7 +105,3 @@ classDiagram
     +Object actions
   }
 ```
-
-### Next steps
-
-- [ ] Mock useNetworkState hook convert useButtonFetch hook into a real unitary test.
