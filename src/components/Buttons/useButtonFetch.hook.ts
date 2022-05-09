@@ -28,7 +28,7 @@ export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
       if (timeout) {
         t = setTimeout(() => {
           actions.abort();
-          actions.setError('');
+          actions.setError();
         }, timeout * 1000);
 
         setFetchTimeout(t as any);
@@ -40,13 +40,12 @@ export default function useButtonFetch<D = unknown>(): UseButtonFetchReturn<D> {
 
         actions.setData(d);
       } catch (error: any) {
-
         if (error as DOMException) {
           actions.resetSignal();
           return;
         }
 
-        actions.setError('');
+        actions.setError();
       } finally {
         actions.end();
       }
